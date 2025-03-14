@@ -17,7 +17,7 @@ class VectorStore:
         """Initialize the VectorStore with settings and Timescale Vector client."""
         self.settings = get_settings()
         self.vector_settings = self.settings.vector_store
-        self.vector_settings.embedding_dimensions = 4096
+        self.vector_settings.embedding_dimensions = 384
         self.vec_client = client.Sync(
             self.settings.database.service_url,
             self.vector_settings.table_name,

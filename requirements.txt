@@ -7,3 +7,6 @@ instructor
 anthropic
 torch
 transformers
+
+requests
+

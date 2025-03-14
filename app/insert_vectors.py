@@ -1,12 +1,12 @@
 from datetime import datetime
 
 import pandas as pd
-from database.vector_store import VectorStore
+from database.vector_store_openai import VectorStore
 from timescale_vector.client import uuid_from_time
 
 # Initialize VectorStore
 vec = VectorStore()
-vec.vector_settings.embedding_dimensions = 384
+vec.vector_settings.embedding_dimensions = 1536
 
 # Read the CSV file
 df = pd.read_csv("../data/faq_dataset.csv", sep=";")

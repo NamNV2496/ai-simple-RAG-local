@@ -1,6 +1,6 @@
 from datetime import datetime
-from database.vector_store import VectorStore
-from services.synthesizer import Synthesizer
+from database.vector_store_local_LLM import VectorStore
+from services.synthesizer_openai import Synthesizer
 from timescale_vector import client
 
 # Initialize VectorStore
@@ -11,9 +11,9 @@ vec = VectorStore()
 # --------------------------------------------------------------
 
 relevant_question = "What are your shipping options?"
-results = vec.search(relevant_question, limit=3)
+build_query = vec.search(relevant_question, limit=3)
 
-response = Synthesizer.generate_response(question=relevant_question, context=results)
+response = Synthesizer.generate_response(question=relevant_question, context=build_query)
 
 print(f"\n{response.answer}")
 print("\nThought process:")
@@ -26,10 +26,9 @@ print(f"\nContext: {response.enough_context}")
 # --------------------------------------------------------------
 
 irrelevant_question = "What is the weather in Tokyo?"
+build_query = vec.search(irrelevant_question, limit=3)
 
-results = vec.search(irrelevant_question, limit=3)
-
-response = Synthesizer.generate_response(question=irrelevant_question, context=results)
+response = Synthesizer.generate_response(question=irrelevant_question, context=build_query)
 
 print(f"\n{response.answer}")
 print("\nThought process:")
@@ -42,10 +41,9 @@ print(f"\nContext: {response.enough_context}")
 # --------------------------------------------------------------
 
 metadata_filter = {"category": "Shipping"}
+build_query = vec.search(relevant_question, limit=3, metadata_filter=metadata_filter)
 
-results = vec.search(relevant_question, limit=3, metadata_filter=metadata_filter)
-
-response = Synthesizer.generate_response(question=relevant_question, context=results)
+response = Synthesizer.generate_response(question=relevant_question, context=build_query)
 
 print(f"\n{response.answer}")
 print("\nThought process:")
@@ -59,7 +57,6 @@ print(f"\nContext: {response.enough_context}")
 
 predicates = client.Predicates("category", "==", "Shipping")
 results = vec.search(relevant_question, limit=3, predicates=predicates)
-
 
 predicates = client.Predicates("category", "==", "Shipping") | client.Predicates(
     "category", "==", "Services"
