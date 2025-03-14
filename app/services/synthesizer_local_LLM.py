@@ -1,8 +1,8 @@
 from typing import List
 import pandas as pd
 from pydantic import BaseModel, Field
-from services.llm_factory import LLMFactory
-
+import requests
+import logging
 
 class SynthesizedResponse(BaseModel):
     thought_process: List[str] = Field(
@@ -44,24 +44,32 @@ class Synthesizer:
         Returns:
             A SynthesizedResponse containing thought process and answer.
         """
-        context_str = Synthesizer.dataframe_to_json(
-            context, columns_to_keep=["content", "category"]
-        )
+        api_url = "http://localhost:1234/v1/chat/completions" 
 
-        messages = [
-            {"role": "system", "content": Synthesizer.SYSTEM_PROMPT},
-            {"role": "user", "content": f"# User question:\n{question}"},
-            {
-                "role": "assistant",
-                "content": f"# Retrieved information:\n{context_str}",
-            },
+        context_messages = [
+            {"role": "assistant", "content": row["content"]}
+            for _, row in context.iterrows()
         ]
 
-        llm = LLMFactory("openai")
-        return llm.create_completion(
-            response_model=SynthesizedResponse,
-            messages=messages,
+        payload = {
+            "model": "deepseek-r1-distill-qwen-7b",
+            "messages": [
+                {"role": "system", "content": "Could you please help me answer my question"},
+                {"role": "user", "content": question},
+                *context_messages
+            ],
+            "temperature": 0.7,
+            "max_tokens": 500
+        }
+
+        response = requests.post(api_url, json=payload)
+        return SynthesizedResponse(
+            answer=response.json()["choices"][0]["message"]["content"],
+            thought_process=["a", "b"],
+            enough_context=True
         )
+
+
 
     @staticmethod
     def dataframe_to_json(
