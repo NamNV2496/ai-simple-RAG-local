@@ -21,13 +21,13 @@
 
 Setup VScode
 
-<img src="blog/ai/img/0.png" style="display: block; margin-right: auto; margin-left: auto;">
+<img src="docs/0.png" style="display: block; margin-right: auto; margin-left: auto;">
 
 Then you can press `Shift + Enter` to run code
 
-<img src="blog/ai/img/1.png" style="display: block; margin-right: auto; margin-left: auto;">
+<img src="docs/1.png" style="display: block; margin-right: auto; margin-left: auto;">
 
-<img src="blog/ai/img/2.png" style="display: block; margin-right: auto; margin-left: auto;">
+<img src="docs/2.png" style="display: block; margin-right: auto; margin-left: auto;">
 
 
 
@@ -84,7 +84,7 @@ pip install -r requirements.txt
 
 Start LLM model
 
-<img src="blog/ai/img/3.png" style="display: block; margin-right: auto; margin-left: auto;">
+<img src="docs/3.png" style="display: block; margin-right: auto; margin-left: auto;">
 
 Now you can call API to local LLM running on LMStudio
 
