@@ -31,6 +31,7 @@ Then you can press `Shift + Enter` to run code
 <img src="docs/2.png" style="display: block; margin-right: auto; margin-left: auto;">
 
 
+# STEP 1: Modify `example.env` to `.env`
 
 <div id='id-lession1.1'>
 
